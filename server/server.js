@@ -1,8 +1,8 @@
 import "@babel/polyfill";
 import dotenv from "dotenv";
 import "isomorphic-fetch";
-import createShopifyAuth, {verifyRequest} from "@shopify/koa-shopify-auth";
-import Shopify, {ApiVersion} from "@shopify/shopify-api";
+import createShopifyAuth, { verifyRequest } from "@shopify/koa-shopify-auth";
+import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
@@ -38,7 +38,7 @@ app.prepare().then(async () => {
     createShopifyAuth({
       async afterAuth(ctx) {
         // Access token and shop available in ctx.state.shopify
-        const {shop, accessToken, scope} = ctx.state.shopify;
+        const { shop, accessToken, scope } = ctx.state.shopify;
         const host = ctx.query.host;
         ACTIVE_SHOPIFY_SHOPS[shop] = scope;
 
@@ -91,7 +91,7 @@ app.prepare().then(async () => {
 
   router.post(
     "/graphql",
-    verifyRequest({returnHeader: true}),
+    verifyRequest({ returnHeader: true }),
     async (ctx, next) => {
       await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
     }
@@ -100,16 +100,23 @@ app.prepare().then(async () => {
   router.post('/mypos/promotions', (ctx) => {
     console.log(ctx.request.body);
     ctx.body = {
-      "type": "simple_action_list",
-      "points_label": "Points balance",
-      "points_balance": "23867",
-      "actions": [
+      type: "simple_action_list",
+      points_label: "ポイント残高",
+      points_balance: 23867,
+      actions: [
         {
-          "type": "flat_discount",
-          "title": "Add $5.00 discount",
-          "description": "-1000 points",
-          "action_id": "123ABC",
-          "value": "5"
+          type: "flat_discount",
+          title: "5.00ドルのディスカウントを追加する",
+          description: "-1000ポイント",
+          action_id: "123ABC",
+          value: "5"
+        },
+        {
+          type: "percent_discount",
+          title: "20%のディスカウント",
+          description: "-1000ポイント",
+          action_id: "456DEF",
+          value: "0.2"
         }
       ]
     };
