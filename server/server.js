@@ -100,33 +100,6 @@ app.prepare().then(async () => {
   router.post('/mypos/promotions', (ctx) => {
     console.log(ctx.request.body);
     ctx.body = {
-      type: "simple_action_list",
-      points_label: "ポイント残高",
-      points_balance: 23867,
-      actions: [
-        {
-          type: "flat_discount",
-          title: "5.00ドルのディスカウントを追加する",
-          description: "-1000ポイント",
-          action_id: "123ABC",
-          value: "5"
-        },
-        {
-          type: "percent_discount",
-          title: "20%のディスカウント",
-          description: "-1000ポイント",
-          action_id: "456DEF",
-          value: "0.2"
-        }
-      ]
-    };
-    ctx.type = "application/json";
-    ctx.status = 200;
-  });
-
-  router.post('/mypos/perform_action', (ctx) => {
-    console.log(ctx.request.body);
-    ctx.body = {
       "type": "simple_action_list",
       "points_label": "Points balance",
       "points_balance": "23867",
@@ -144,26 +117,31 @@ app.prepare().then(async () => {
     ctx.status = 200;
   });
 
+  router.post('/mypos/perform_action', (ctx) => {
+    console.log(ctx.request.body);
+    ctx.body = {
+      "type": "simple_action_list",
+      "points_label": "Point balance",
+      "points_balance": "22867",
+      "actions": []
+    };
+    ctx.type = "application/json";
+    ctx.status = 200;
+  });
+
   router.post('/mypos/revert_action', (ctx) => {
     console.log(ctx.request.body);
     ctx.body = {
-      type: "simple_action_list",
-      points_label: "ポイント残高",
-      points_balance: 23867,
-      actions: [
+      "type": "simple_action_list",
+      "points_label": "Point balance",
+      "points_balance": "23867",
+      "actions": [
         {
-          type: "flat_discount",
-          title: "5.00ドルのディスカウントを追加する",
-          description: "-1000ポイント",
-          action_id: "123ABC",
-          value: "5"
-        },
-        {
-          type: "percent_discount",
-          title: "20%のディスカウント",
-          description: "-1000ポイント",
-          action_id: "456DEF",
-          value: "0.2"
+          "type": "flat_discount",
+          "title": "Add $5.00 discount",
+          "description": "-1000 points",
+          "action_id": "123ABC",
+          "value": "5.00"
         }
       ]
     };
