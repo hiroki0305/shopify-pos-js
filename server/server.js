@@ -105,6 +105,29 @@ app.prepare().then(async () => {
   router.post('/mypos/promotions', (ctx) => {
     console.log("promotion");
     console.log(ctx.request.body);
+    if (ctx.request.body.customer_id) {
+      ctx.body = {
+        type: "simple_action_list",
+        points_label: "ポイント残高",
+        points_balance: 23867,
+        actions: [
+          {
+            type: "flat_discount",
+            title: "500円のディスカウントを追加する",
+            description: "-1000ポイント",
+            action_id: "123ABC",
+            value: "500"
+          }
+        ]
+      };
+    }
+    ctx.type = "application/json";
+    ctx.status = 200;
+  });
+
+  router.post('/mypos/perform_action', (ctx) => {
+    console.log("action");
+    console.log(ctx.request.body);
     ctx.body = {
       type: "simple_action_list",
       points_label: "ポイント残高",
@@ -123,27 +146,6 @@ app.prepare().then(async () => {
     ctx.status = 200;
   });
 
-  router.post('/mypos/perform_action', (ctx) => {
-    console.log("action");
-    console.log(ctx.request.body);
-    ctx.body = {
-      type: "simple_action_list",
-      points_label: "ポイント残高",
-      points_balance: 23867,
-      actions: [
-        {
-          type: "flat_discount",
-          title: "5.00ドルのディスカウントを追加する",
-          description: "-1000ポイント",
-          action_id: "123ABC",
-          value: "5"
-        },
-      ]
-    };
-    ctx.type = "application/json";
-    ctx.status = 200;
-  });
-
   router.post('/mypos/revert_action', (ctx) => {
     console.log("revert");
     console.log(ctx.request.body);
@@ -154,11 +156,11 @@ app.prepare().then(async () => {
       actions: [
         {
           type: "flat_discount",
-          title: "5.00ドルのディスカウントを追加する",
+          title: "500円のディスカウントを追加する",
           description: "-1000ポイント",
           action_id: "123ABC",
-          value: "5"
-        },
+          value: "500"
+        }
       ]
     };
     ctx.type = "application/json";
