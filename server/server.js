@@ -6,6 +6,7 @@ import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
+import koaBody from "koa-body";
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
@@ -32,6 +33,10 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 
 app.prepare().then(async () => {
   const server = new Koa();
+  server.use(koaBody())
+  // server.use(ctx => {
+  //   ctx.body = JSON.stringify(ctx.request.body)
+  // })
   const router = new Router();
   server.keys = [Shopify.Context.API_SECRET_KEY];
   server.use(
@@ -99,6 +104,7 @@ app.prepare().then(async () => {
 
   router.post('/mypos/promotions', (ctx) => {
     console.log("promotion");
+    console.log(ctx.request.body);
     ctx.body = {
       type: "simple_action_list",
       points_label: "ポイント残高",
@@ -119,6 +125,7 @@ app.prepare().then(async () => {
 
   router.post('/mypos/perform_action', (ctx) => {
     console.log("action");
+    console.log(ctx.request.body);
     ctx.body = {
       type: "simple_action_list",
       points_label: "ポイント残高",
@@ -139,6 +146,7 @@ app.prepare().then(async () => {
 
   router.post('/mypos/revert_action', (ctx) => {
     console.log("revert");
+    console.log(ctx.request.body);
     ctx.body = {
       type: "simple_action_list",
       points_label: "ポイント残高",
